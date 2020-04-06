@@ -1,22 +1,10 @@
-## cmake CMakeLists编写，安装代码到指定路径
+## cmake 安装自定义库到指定目录
+开发中，我们会开发一些自定义的库或者二次封装的库，如log库，config文件读取库，文件操作库，算法库等，编译后可以按照如下命令进行安装到指定到目录下。默认大家会使用cmake指令。<br>
+具体步骤：<br>
+1. 编写库文件+CMakeLists.txt
+2. 编译到指定目录
 
-### 编译和安装命令
-```
-cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/local/mylocal/hello/hello-0.1.0 ..
-make -j4
-sudo make install
-```
-
-### **trick**
-1. 一般情况下，我们会编译一些自定义的库或者二次封装的库，如log库，config文件读取库，文件操作库，算法库等，编译后可以按照如上命令进行安装到指定到目录下。建议安装时按照库名\库名-版本号方式进行存放，可支持多版本的库存放，类似opencv2，opencv3， opencv4等；<br>
-2. 在 ~/.bashrc 添加库地址，并且**激活 source ~/.bashrc**。该文件包含专用于你的bash shell的bash信息，当登录时以及每次打开新的shell时，该该文件被读取。因此，需要**重新**打开bash。
-    ```
-    # HELLO
-    export PATH="/usr/local/mylocal/hello/hello-0.1.0:$PATH"
-    ```
-
-
-### CMakeLists.txt编写
+### **1.库开发 + CMakeLists.txt编写**
 hello.cpp
 ```
 #include "hello.h"
@@ -28,6 +16,7 @@ namespace tf{
     }
 }
 ```
+
 hello.h
 ```
 #ifndef PROJECT_DEMO_H
@@ -38,6 +27,7 @@ namespace tf{
 }
 
 #endif //PROJECT_DEMO_H
+
 ```
 CMakeLists.txt
 ```
@@ -71,3 +61,18 @@ INSTALL(
 # install .h
 INSTALL(FILES hello.h DESTINATION include)
 ```
+
+### 2. 编译和安装命令
+```
+cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/local/mylocal/hello/hello-0.1.0 ..
+make -j4
+sudo make install
+```
+
+### **trick**
+1. 建议安装时按照库名\库名-版本号方式进行存放，可支持多版本的库存放，类似opencv2，opencv3， opencv4等；<br>
+2. 在 ~/.bashrc 添加库地址，并且**激活 source ~/.bashrc**。该文件包含专用于你的bash shell的bash信息，当登录时以及每次打开新的shell时，该该文件被读取。因此，需要**重新**打开bash。
+    ```
+    # HELLO
+    export PATH="/usr/local/mylocal/hello/hello-0.1.0:$PATH"
+    ```
